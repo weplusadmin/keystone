@@ -8,5 +8,9 @@ module.exports = function initList (req, res, next) {
 		req.flash('error', 'List ' + req.params.list + ' could not be found.');
 		return res.redirect('/' + keystone.get('admin path'));
 	}
-	next();
+	if ( req.list.onInit ) {
+		req.list.onInit(req, next);
+	} else {
+		next();	
+	}
 };
